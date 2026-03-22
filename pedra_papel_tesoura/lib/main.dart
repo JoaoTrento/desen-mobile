@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pedra_papel_tesoura/Resultado.dart';
+import 'dart:math';
 
 void main() {
   runApp(const MyApp());
@@ -13,10 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepOrange),
+        colorScheme: .fromSeed(seedColor: Colors.lightBlue),
       ),
-        home: Resultado(title: 'Pedra Papel Tesoura'),
-      // home: const MyHomePage(title: 'Pedra Papel Tesoura'),
+      home: const MyHomePage(title: 'Pedra Papel Tesoura'),
     );
   }
 }
@@ -30,14 +30,13 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+int gerarEscolhaMaquina() {
+  return Random().nextInt(3) + 1;
+}
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class _MyHomePageState extends State<MyHomePage> {
+  int escolhaUsuario = 0;
+  int escolhaMaquina = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -51,31 +50,83 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Container(height: 10),
             Container(
-              child: Image.asset('images/padrao.png'),
+              child: Image.asset('assets/images/padrao.png'),
             ),
             Text('Escolha do App'),
             Container(height: 100),
-            Row(mainAxisAlignment:.spaceAround,
-                children: [
-              Container(
-                child: Image.asset('images/pedra.png'),
-                width: 100,
-              ),
-              Container(
-                child: Image.asset('images/papel.png'),
-                  width: 100,
-              ),
-              Container(
-                child: Image.asset('images/tesoura.png'),
-                  width: 100,
-              )])
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+
+                // PEDRA
+                GestureDetector(
+                  onTap: () {
+                      escolhaUsuario = 1;
+                      escolhaMaquina = gerarEscolhaMaquina();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Resultado(
+                            title: 'Resultado',
+                            escolhaUsuario: escolhaUsuario,
+                            escolhaMaquina: escolhaMaquina,
+                          ),
+                        ),
+                      );
+                  },
+                  child: SizedBox(
+                    width: 100,
+                    child: Image.asset('assets/images/pedra.png'),
+                  ),
+                ),
+
+                // PAPEL
+                GestureDetector(
+                  onTap: () {
+                    escolhaUsuario = 2;
+                    escolhaMaquina = gerarEscolhaMaquina();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Resultado(
+                          title: 'Resultado',
+                          escolhaUsuario: escolhaUsuario,
+                          escolhaMaquina: escolhaMaquina,
+                        ),
+                      ),
+                    );
+                  },
+                  child: SizedBox(
+                    width: 100,
+                    child: Image.asset('assets/images/papel.png'),
+                  ),
+                ),
+
+                // TESOURA
+                GestureDetector(
+                  onTap: () {
+                    escolhaUsuario = 3;
+                    escolhaMaquina = gerarEscolhaMaquina();
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) => Resultado(
+                    title: 'Resultado',
+                    escolhaUsuario: escolhaUsuario,
+                    escolhaMaquina: escolhaMaquina,
+                    ),
+                    ),
+                    );
+                  },
+                  child: SizedBox(
+                    width: 100,
+                    child: Image.asset('assets/images/tesoura.png'),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

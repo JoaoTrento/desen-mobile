@@ -1,12 +1,69 @@
 import 'package:flutter/material.dart';
 
 class Resultado extends StatefulWidget {
-  const Resultado({super.key, required this.title});
-
   final String title;
+  final int escolhaUsuario;
+  final int escolhaMaquina;
+
+  const Resultado({
+    super.key,
+    required this.title,
+    required this.escolhaUsuario,
+    required this.escolhaMaquina,
+  });
 
   @override
   State<Resultado> createState() => _ResultadoState();
+}
+
+Widget getImagemEscolhaUsuario(int escolha) {
+  switch (escolha) {
+    case 1:
+      return Image.asset('assets/images/pedra.png');
+    case 2:
+      return Image.asset('assets/images/papel.png');
+    case 3:
+      return Image.asset('assets/images/tesoura.png');
+    default:
+      return Image.asset('assets/images/padrao.png');
+  }
+}
+
+Widget getImagemEscolhaMaquina(int escolha) {
+  switch (escolha) {
+    case 1:
+      return Image.asset('assets/images/pedra.png');
+    case 2:
+      return Image.asset('assets/images/papel.png');
+    case 3:
+      return Image.asset('assets/images/tesoura.png');
+    default:
+      return Image.asset('assets/images/padrao.png');
+  }
+}
+
+Widget geraResultadoImagem(int escolhaUsuario, int escolhaMaquina) {
+  if (escolhaUsuario == escolhaMaquina) {
+    return Image.asset('assets/images/icons8-aperto-de-maos-100.png', height: 125, width: 125, fit: BoxFit.contain);
+  } else if ((escolhaUsuario == 3) && (escolhaMaquina == 1)) {
+    return Image.asset('assets/images/icons8-perder-48.png', height: 125, width: 125, fit: BoxFit.contain);
+  } else if (escolhaUsuario > escolhaMaquina) {
+    return Image.asset('assets/images/icons8-vitoria-48.png', height: 125, width: 125, fit: BoxFit.contain);
+  } else {
+    return Image.asset('assets/images/icons8-perder-48.png', height: 125, width: 125, fit: BoxFit.contain);
+  }
+}
+
+String geraResultadoTexto(int escolhaUsuario, int escolhaMaquina) {
+  if (escolhaUsuario == escolhaMaquina) {
+    return 'Empatou!';
+  } else if ((escolhaUsuario == 3) && (escolhaMaquina == 1)) {
+    return 'Você Perdeu!';
+  } else if (escolhaUsuario > escolhaMaquina) {
+    return 'Você Ganhou!!!';
+  } else {
+    return 'Você Perdeu!';
+  }
 }
 
 class _ResultadoState extends State<Resultado> {
@@ -22,19 +79,19 @@ class _ResultadoState extends State<Resultado> {
           children: [
             Container(height: 10),
             Container(
-              child: Image.asset('images/papel.png'),
-            ),
-            Text('Sua Escolha'),
-            Container(height: 100),
-            Container(
-              child: Image.asset('images/pedra.png'),
+              child: getImagemEscolhaMaquina(widget.escolhaMaquina),
             ),
             Text('Escolha do App'),
-            Container(height: 100),
+            Container(height: 50),
             Container(
-              child: Image.asset('images/icons8-perder-48.png', height: 125, width: 125, fit: BoxFit.contain),
+              child: getImagemEscolhaUsuario(widget.escolhaUsuario),
             ),
-            Text('Você Perdeu/Venceu!'),
+            Text('Sua Escolha'),
+            Container(height: 50),
+            Container(
+              child: geraResultadoImagem(widget.escolhaUsuario, widget.escolhaMaquina)
+            ),
+            Text(geraResultadoTexto(widget.escolhaUsuario, widget.escolhaMaquina)),
             const SizedBox(height: 20),
             SizedBox(
               width: 250,
@@ -44,7 +101,7 @@ class _ResultadoState extends State<Resultado> {
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                  backgroundColor: Colors.lightBlue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
